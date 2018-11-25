@@ -35,7 +35,12 @@ class IpLocation
         $this->ip = $ip;
     }
 
-    public function get($key, $default = null) {
+    /**
+     * @param $key string
+     * @param $default string
+     * @return string
+     */
+    public function get(string $key,string $default = null) {
         if (is_null($this->data)) {
             $this->requestLocationData();
         }
@@ -75,10 +80,9 @@ class IpLocation
     private function resolveDefault($key) {
         switch ($key) {
             case self::COUNTRY_CODE: return env('DEFAULT_COUNTRY', 'US');
-            case self::COUNTRY: return 'United States';
-            default: return null;
+            case self::COUNTRY:      return env('DEFAULT_COUNTRY_NAME', 'United States');
+
+            default: return '';
         }
-
-
     }
 }

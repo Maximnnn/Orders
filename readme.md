@@ -6,7 +6,7 @@ POST api/register
 
 Login:
 
-POST api/login returns data.api_token
+POST api/login returns json{api_token: token}
 
 Logout:
 

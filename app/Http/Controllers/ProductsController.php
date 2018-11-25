@@ -32,15 +32,15 @@ class ProductsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreProduct $request
-     * @param Product $product
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function store(StoreProduct $request)
     {
         $request->validateResolved();
 
         return response()
-            ->json((new Product($request->validated()))->store());
+            ->json((new Product($request->validated()))->store(), 201);
     }
 
     /**

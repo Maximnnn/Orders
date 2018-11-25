@@ -21,19 +21,17 @@ class OrdersController extends Controller
      */
     public function index(Request $request, Order $order)
     {
-        $validator = Validator::make($request->all(), [
+        Validator::make($request->all(), [
             'type' => 'string'
-        ]);
-
-        $validator->validate();
+        ])->validate();
 
         $filter = array_filter([
             'type' => $request->get('type')
         ]);
 
         return response()->json([
-            'Orders' => $order->getAll($filter)
-        ]);
+            'orders' => $order->getAll($filter)
+        ], 200);
     }
 
     /**
@@ -50,8 +48,8 @@ class OrdersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreOrder $request
-     * @param Order $order
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function store(StoreOrder $request)
     {
