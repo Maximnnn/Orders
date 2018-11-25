@@ -14,7 +14,6 @@ php artisan migrate:refresh --seed
 
 php artisan serve
 
-login test@test.com:qwerty
 
 
 Api Routes:
@@ -25,7 +24,7 @@ POST api/register
 
 Login:
 
-POST api/login returns json{api_token: token}
+POST api/login {email:"test@test.com", password: "qwerty"}    returns json{api_token: token}
 
 Logout:
 
