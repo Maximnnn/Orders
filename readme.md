@@ -1,3 +1,22 @@
+Installation:
+
+git clone https://github.com/Maximnnn/Printify.git
+
+composer install
+
+copy .env.example to .env
+
+configure .env (database)
+
+php artisan key:generate
+
+php artisan migrate:refresh --seed
+
+php artisan serve
+
+login test@test.com:qwerty
+
+
 Api Routes:
 
 Registration:
