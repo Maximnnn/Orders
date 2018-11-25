@@ -41,4 +41,5 @@ POST api/orders (required api_token, products[] = [{id:product_id, count: some_i
 Get Orders:
 
 GET api/orders?api_token=token
+
 GET api/orders?api_token=token&type=some_type //to filter orders by product type
