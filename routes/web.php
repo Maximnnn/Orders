@@ -22,7 +22,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->group(function() {
 
-
     Route::middleware('countryLimiter:' . env('COUNTRY_REQUEST_LIMIT'))->group(function(){
 
         Route::post('products', 'ProductsController@store');

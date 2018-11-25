@@ -13,6 +13,24 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::middleware('countryLimiter:' . env('COUNTRY_REQUEST_LIMIT'))->group(function () {
+
+    Route::get('login', 'Auth\LoginController@apiLogin');
+
+    Route::post('register', 'Auth\RegisterController@register');
+
+    Route::middleware('auth:api')->group(function () {
+
+        Route::get('user', function(Request $request) {
+            return $request->user();
+        });
+
+        Route::post('products', 'ProductsController@store');
+
+        Route::resource('orders', 'OrdersController')->only(['store', 'index']);
+
+        Route::get('logout', 'Auth\LoginController@apiLogout');
+    });
 });
+

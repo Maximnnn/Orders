@@ -2,14 +2,13 @@
 
 namespace App;
 
-use function foo\func;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
-    protected $fillable = ['country'];
+    protected $fillable = ['country', 'created_by'];
 
     public function orderProducts() {
         return $this->hasMany(OrderProduct::class);
