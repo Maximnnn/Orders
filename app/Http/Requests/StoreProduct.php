@@ -13,7 +13,7 @@ class StoreProduct extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,10 +24,12 @@ class StoreProduct extends FormRequest
     public function rules()
     {
         return [
-            'price' => 'required|float',
+            'price' => "required|regex:/^\d*(\.\d{1,2})?$/",
             'type' => 'required|string',
             'color' => 'required|string',
-            'size' => 'required|float'
+            'size' => "required|regex:/^\d*(\.\d{1,2})?$/"
         ];
     }
+
+
 }

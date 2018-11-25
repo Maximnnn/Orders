@@ -23,13 +23,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware('auth')->group(function() {
 
 
+    Route::middleware('countryLimiter:' . env('COUNTRY_REQUEST_LIMIT'))->group(function(){
 
-    Route::resource('products', 'ProductsController')->only([
-        'store'
-    ]);
+        Route::post('products', 'ProductsController@store');
 
-    Route::resource('orders', 'OrdersController')->only([
-        'index', 'store'
-    ]);
+        Route::resource('orders', 'OrdersController')->only(['store', 'index']);
+    });
 
 });
+
+Route::post('api/login', 'Auth\LoginController@apiLogin');

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrder;
 use App\Order;
+use App\OrderProduct;
+use App\Services\IpLocation;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,9 +27,9 @@ class OrdersController extends Controller
 
         $validator->validate();
 
-        $filter = [
+        $filter = array_filter([
             'type' => $request->get('type')
-        ];
+        ]);
 
         return response()->json([
             'Orders' => $order->getAll($filter)
@@ -50,13 +53,29 @@ class OrdersController extends Controller
      * @param Order $order
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreOrder $request, Order $order)
+    public function store(StoreOrder $request)
     {
         $request->validateResolved();
 
-        $country = ''; //TODO
+        $order = new Order([
+            'country' => IpLocation::getInstanceFromIp($request->ip())->get(IpLocation::COUNTRY_CODE),
+            'created_by' => $request->user()->id
+        ]);
 
-        return response()->json($order->store($request->validated(), $country));
+        $orderProducts = [];
+
+        foreach ($request->validated()['products'] as $product) {
+            $orderProducts[] = new OrderProduct([
+                'product_id' => $product['id'],
+                'count' => $product['count']
+            ]);
+        }
+
+        $result = $order->store(new Collection($orderProducts));
+
+        return response()->json([
+            'success' => 'Order Created'
+        ], 201);
     }
 
     /**

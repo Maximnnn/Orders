@@ -13,7 +13,7 @@ class StoreOrder extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,10 +27,15 @@ class StoreOrder extends FormRequest
             "products" => "required|array|min:1",
             "products.*.id"  => [
                 'required',
-                'int',
+                'numeric',
                 'distinct',
                 'exists:products,id',
-                ]
+                ],
+            "products.*.count" => [
+                'required',
+                'numeric',
+                'min:1'
+            ]
         ];
     }
 }

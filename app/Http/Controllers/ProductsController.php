@@ -35,11 +35,12 @@ class ProductsController extends Controller
      * @param Product $product
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProduct $request, Product $product)
+    public function store(StoreProduct $request)
     {
         $request->validateResolved();
 
-        return response()->json($product->store($request->validated()));
+        return response()
+            ->json((new Product($request->validated()))->store());
     }
 
     /**

@@ -9,11 +9,18 @@ class Product extends Model
     protected $fillable = ['price', 'type', 'color', 'size'];
 
     public function orders() {
-        return $this->hasManyThrough(Order::class, OrderProduct::class);
+        return $this->belongsToMany(Order::class, 'order_products');
     }
 
 
-    public function store(array $product):Product {
-        return self::create($product);
+    public function store() {
+
+        if (Product
+            ::where('type', $this->type)
+            ->where('size', $this->size)
+            ->where('color', $this->color)
+            ->count() > 0) throw new \Exception('product already exists');
+
+        return $this->save();
     }
 }
